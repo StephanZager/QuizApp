@@ -46,13 +46,30 @@ function showQuestion(){
 function answer(selection){
     let question = questions[currentQuestion];
     let selectedQuestionNumber = selection.slice(-1);
-    console.log(selectedQuestionNumber);
+    
+    let idOfRightAnswer = `answer_${question['right_answer']}`//das ist die id also answer_1 oder 2.. das $ ist die nummer
 
     if(selectedQuestionNumber == question['right_answer']){
         document.getElementById(selection).parentNode.classList.add('bg-success');
-        console.log('richtige Antwort');
+      
     }else{
         document.getElementById(selection).parentNode.classList.add('bg-danger');
-        console.log('Falsche ANtwort');
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');       
     }
+    document.getElementById('next-button').disabled = false; //button ist freigeschalten
+}
+
+function nextQuestion(){
+    currentQuestion++; // zb von 0 auf 1
+    showQuestion();
+    document.getElementById('next-button').disabled = true;
+
+    document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_1').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-success');
 }
