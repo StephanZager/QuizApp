@@ -26,7 +26,7 @@ let questions = [
 ];
 
 let rightQuestion = 0;
-
+let AUDIO_Fail = new Audio('aduio/278164_5324223-lq.mp3');
 let currentQuestion = 0;
 
 function init(){
@@ -37,29 +37,16 @@ function init(){
 
 function showQuestion(){
 
-    if(currentQuestion >= questions.length){
-        document.getElementById('end-screen').style = '';
-        document.getElementById('question-body').style = 'display: none';
-
-        document.getElementById('amount-of-Question').innerHTML = questions.length;
-        document.getElementById('amount-of-right-Question').innerHTML = rightQuestion;
-        document.getElementById('header-img').src = 'img/brain result.png';
+    if(gameisOver()){
+        showEndScreen();
     }else{
-
-    let percent = currentQuestion / questions.length;
-    percent = Math.round(percent * 100);
-    document.getElementById('progress-bar').innerHTML= `${percent}`;
-    console.log(percent);
-
-    let question = questions[currentQuestion];
-
-    document.getElementById('question-number').innerHTML = currentQuestion + 1;
-    document.getElementById('question-text').innerHTML = question['questin'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+        ubdateProgressbar();
+    ubdateTonextQuestion();
 }
+}
+
+function gameisOver(){
+    return currentQuestion >= questions.length;
 }
 
 function answer(selection){
@@ -68,13 +55,14 @@ function answer(selection){
     
     let idOfRightAnswer = `answer_${question['right_answer']}`//das ist die id also answer_1 oder 2.. das $ ist die nummer
 
-    if(selectedQuestionNumber == question['right_answer']){ //richrtige frage
+    if(rightanswerselectet(selectedQuestionNumber, question)){ //richrtige frage
         document.getElementById(selection).parentNode.classList.add('bg-success');
         rightQuestion++;
       
     }else{
         document.getElementById(selection).parentNode.classList.add('bg-danger');
-        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');       
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');  
+        AUDIO_Fail.play();     
     }
     document.getElementById('next-button').disabled = false; //button ist freigeschalten
 }
@@ -92,4 +80,49 @@ function nextQuestion(){
     document.getElementById('answer_3').parentNode.classList.remove('bg-success');
     document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
     document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+}
+
+function restartGame(){
+    document.getElementById('header-img').src = 'img/brainbg.jpg';
+    rightQuestion = 0;
+    currentQuestion = 0;
+    init();
+    document.getElementById('end-screen').style = 'display: none';
+    document.getElementById('question-body').style = '';
+
+
+}
+
+function showEndScreen(){
+    document.getElementById('end-screen').style = '';
+        document.getElementById('question-body').style = 'display: none';
+
+        document.getElementById('amount-of-Question').innerHTML = questions.length;
+        document.getElementById('amount-of-right-Question').innerHTML = rightQuestion;
+        document.getElementById('header-img').src = 'img/brain result.png';
+}
+
+function ubdateProgressbar(){
+    let percent = (currentQuestion + 1)  / questions.length;
+    percent = Math.round(percent * 100);
+    document.getElementById('progress-bar').innerHTML= `${percent}`;
+    document.getElementById('progress-bar').style = `width :${percent}%;`;
+    console.log(percent);
+}
+
+function ubdateTonextQuestion(){
+    
+
+    let question = questions[currentQuestion];
+
+    document.getElementById('question-number').innerHTML = currentQuestion + 1;
+    document.getElementById('question-text').innerHTML = question['questin'];
+    document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('answer_2').innerHTML = question['answer_2'];
+    document.getElementById('answer_3').innerHTML = question['answer_3'];
+    document.getElementById('answer_4').innerHTML = question['answer_4'];
+}
+
+function rightanswerselectet(selectedQuestionNumber, question){
+    return selectedQuestionNumber == question['right_answer']
 }
