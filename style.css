@@ -29,3 +29,19 @@ body{
 .bg-success, .bg-danger{
     color: white;
 }
+
+.text-center{
+    text-align: center;
+}
+
+.img{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.header-imgs {
+    width: 200px;
+    display: flex !important;
+    justify-content: center !important;
+}

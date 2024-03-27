@@ -25,6 +25,8 @@ let questions = [
      }
 ];
 
+let rightQuestion = 0;
+
 let currentQuestion = 0;
 
 function init(){
@@ -38,7 +40,16 @@ function showQuestion(){
     if(currentQuestion >= questions.length){
         document.getElementById('end-screen').style = '';
         document.getElementById('question-body').style = 'display: none';
+
+        document.getElementById('amount-of-Question').innerHTML = questions.length;
+        document.getElementById('amount-of-right-Question').innerHTML = rightQuestion;
+        document.getElementById('header-img').src = 'img/brain result.png';
     }else{
+
+    let percent = currentQuestion / questions.length;
+    percent = Math.round(percent * 100);
+    document.getElementById('progress-bar').innerHTML= `${percent}`;
+    console.log(percent);
 
     let question = questions[currentQuestion];
 
@@ -57,8 +68,9 @@ function answer(selection){
     
     let idOfRightAnswer = `answer_${question['right_answer']}`//das ist die id also answer_1 oder 2.. das $ ist die nummer
 
-    if(selectedQuestionNumber == question['right_answer']){
+    if(selectedQuestionNumber == question['right_answer']){ //richrtige frage
         document.getElementById(selection).parentNode.classList.add('bg-success');
+        rightQuestion++;
       
     }else{
         document.getElementById(selection).parentNode.classList.add('bg-danger');
